@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>Unit Tests</title>
+
+    <link rel="stylesheet" href="../node_modules/jasmine-core/lib/jasmine-core/jasmine.css">
+
+    <script src="../node_modules\systemjs\dist\system.src.js"></script>
+
+    <script src="../node_modules/jasmine-core/lib/jasmine-core/jasmine.js"></script>
+    <script src="../node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
+
+    <script src="../node_modules/jasmine-core/lib/jasmine-core/boot.js"></script>
+
+</head>
+
+<body>
+    <script>
+        var windowOnload = window.onload;
+        window.onload = undefined;
+
+        System.config({
+            packages: {
+                "./": {
+                    defaultExtension: "js"
+                }
+            }
+        });
+
+        // Unit tests token
+        .then(()=>{
+            windowOnload();
+        });
+
+
+  </script>
+</body>
+
+</html>

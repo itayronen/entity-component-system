@@ -1,0 +1,4 @@
+Move Test.ts to an outer library.
+
+Entities observation is currently unaware of components changes.
+Should observe all the entities components collections?

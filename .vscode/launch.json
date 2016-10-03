@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+         {
+            "name": "Launch localhost with sourcemaps",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:8888/bin/unit-tests.html"
+        },
+        {
+            "name": "Attach with sourcemaps",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            "sourceMaps": true,
+            "url": "http://localhost:8888/bin/unit-tests.html",
+            "diagnosticLogging": true
+        }
+    ]
+}
