@@ -13,12 +13,14 @@ var tsExport = require('gulp-ts-export').default;
 // Config
 
 var packageJson = require("./package.json");
-packageJson.config = packageJson || {};
-var codeSource = packageJson.config.sourceDir || "src";
+packageJson.config = packageJson.config || {};
+var packageSource = packageJson.config.sourceDir || "src";
 var outputDir = packageJson.config.outputDir || "lib";
+var rootExport = packageJson.config.rootExport || "No Root...";
 
-var tsconfigPath = codeSource + '/tsconfig.json';
-var typescriptsDir = codeSource + "/code";
+var tsconfigPath = packageSource + '/tsconfig.json';
+let tsconfigToCodePath = "code";
+var typescriptsDir = packageSource + "/" + tsconfigToCodePath;
 let externalTypesSrc = ["typings/index.d.ts"];
 var libraryTsSrc = [typescriptsDir + "/**/*.ts", "!" + typescriptsDir + "/**/*.test.ts"];
 var tsAndTestsSrc = [typescriptsDir + "/**/*.ts"];
@@ -54,7 +56,7 @@ gulp.task(cleanTask, function () {
 });
 
 gulp.task(generateExportsTask, function () {
-    return gulp.src(libraryTsSrc, { base: codeSource, read: false })
+    return gulp.src(libraryTsSrc, { base: packageSource, read: false })
         .pipe(tsExport(typingsFileName, { exportedBase: "./" }))
         .pipe(gulp.dest(typingsFileDir))
         ;
@@ -63,12 +65,20 @@ gulp.task(generateExportsTask, function () {
 gulp.task(compileTsBundleTask, () => {
     let tsBundledProject = ts.createProject(tsconfigPath, {
         outFile: mainFileName,
-        rootDir: "./"
+        rootDir: tsconfigToCodePath
     });
 
-    return gulp.src(libraryTsSrc.concat(externalTypesSrc))
+    return gulp.src(libraryTsSrc.concat(externalTypesSrc), { base: typescriptsDir })
+        .pipe(tap(file => {
+            file.path = file.path.replace(file.relative, packageJson.name + "/" + file.relative);
+        }))
         .pipe(sourcemaps.init())
         .pipe(ts(tsBundledProject))
+        .pipe(tap(file => {
+            file.contents = new Buffer(file.contents.toString().replace(
+                packageJson.name + "/" + rootExport.replace(".ts", ""),
+                packageJson.name));
+        }))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(mainFileDir))
         ;
@@ -81,7 +91,7 @@ gulp.task(compileToMemoryTask, function () {
         declaration: true,
     });
 
-    let tsResults = gulp.src(tsAndTestsSrc.concat(externalTypesSrc), { base: codeSource })
+    let tsResults = gulp.src(tsAndTestsSrc.concat(externalTypesSrc), { base: packageSource })
         .pipe(sourcemaps.init())
         .pipe(ts(tsProject));
 
@@ -112,7 +122,7 @@ gulp.task(injectTestsToPageTask, function () {
 
     gulp.src(unitTestsSrc)
         .pipe(tap(function (file) {
-            var relativePath = path.relative(codeSource, file.path);
+            var relativePath = path.relative(packageSource, file.path);
             var relativePathToJs = "./" + relativePath.replace(/\\/g, '/').replace(".ts", ".js");
             var scriptToTest = scripts.length == 0 ?
                 "System.import(\"" + relativePathToJs + "\")" :
