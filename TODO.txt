@@ -1,3 +1,11 @@
+Complete README.md
 
 Entities observation is currently unaware of components changes.
 Should observe all the entities components collections?
+
+Systems:
+EntitiesSearchCache - Will initiate from an EntitiesCollection and observe it.
+    May have a few static creators.
+        One will be general (initiateFunc, isInCachePredicate).
+        One will be a by-component.
+        ...
