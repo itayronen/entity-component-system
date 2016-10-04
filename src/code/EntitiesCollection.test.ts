@@ -2,7 +2,7 @@
 import {EntitiesCollection, EntitiesObservation} from "./EntitiesCollection";
 import {ComponentsCollection} from "./ComponentsCollection";
 import {IEntity} from "./IEntity";
-import {test, testAsync} from "./Test";
+import {test, testAsync} from "itay-test";
 
 class TankEntity implements IEntity {
     public components: ComponentsCollection = new ComponentsCollection();

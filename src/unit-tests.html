@@ -12,6 +12,8 @@
     <script src="../node_modules/jasmine-core/lib/jasmine-core/jasmine.js"></script>
     <script src="../node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
 
+    <script src="../node_modules/itay-test/lib/main.js"></script>
+
     <script src="../node_modules/jasmine-core/lib/jasmine-core/boot.js"></script>
 
 </head>
@@ -21,13 +23,16 @@
         var windowOnload = window.onload;
         window.onload = undefined;
 
-        System.config({
-            packages: {
-                "./": {
-                    defaultExtension: "js"
+        System.config(
+            {
+                packages: {
+                    "code": {
+                        defaultExtension: "js"
+                    }
                 }
-            }
-        });
+            });
+
+        System.import("itay-test");
 
         // Unit tests token
         .then(()=>{

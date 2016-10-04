@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "A generic entity comonent system in typescript.",
   "config": {
-    "outputDir": "lib"
+    "outputDir": "lib",
+    "rootExport": "rootExport.ts"
   },
   "main": "./lib/main.js",
   "typings": "./lib/main.d.ts",
@@ -33,6 +34,7 @@
     "gulp-tap": "^0.1.3",
     "gulp-ts-export": "^0.1.4",
     "gulp-typescript": "^2.13.6",
+    "itay-test": "^0.1.4",
     "jasmine-core": "2.4.1",
     "merge2": "^1.0.2"
   }

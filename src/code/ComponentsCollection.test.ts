@@ -1,6 +1,6 @@
 /// <reference path="../../typings/index.d.ts" />
 import {ComponentsCollection} from "./ComponentsCollection";
-import {test, testAsync} from "./Test";
+import {test, testAsync} from "itay-test";
 
 describe("ComponentsCollection", () => {
     describe("add", () => {
